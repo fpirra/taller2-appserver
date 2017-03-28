@@ -41,3 +41,13 @@ Comandos de https://hub.docker.com/_/mongo/
 
 > sudo docker pull mongo sudo docker run --name some-mongo -d mongo
 
+# Mongoose
+
+##Documentación y bibliografía
+
+https://github.com/cesanta/mongoose/blob/master/examples/examples.mk
+https://github.com/cesanta/mongoose/tree/master/examples/simplest_web_server
+https://github.com/cesanta/mongoose
+https://docs.cesanta.com/mongoose/master/#/overview/
+https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
+
