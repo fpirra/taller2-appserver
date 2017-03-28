@@ -51,7 +51,7 @@ https://github.com/cesanta/mongoose
 https://docs.cesanta.com/mongoose/master/#/overview/
 https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
 
-# Observación
+# Instalar el servidor
 
 cmake lee los archivos CMakeLists.txt al lanzar el comando:
 
@@ -61,4 +61,12 @@ Siendo . la ubicación actual. Generando así archivos Makefile que tienen lo ne
 
 > make
 
+# Correr servidor
+
+> cd src
+> ./Server
+
+#TODO
+
+* Hacer que el ejecutable se cree en la raíz del proyecto
 
