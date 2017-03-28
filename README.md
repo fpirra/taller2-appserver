@@ -66,6 +66,15 @@ Siendo . la ubicación actual. Generando así archivos Makefile que tienen lo ne
 > cd src
 > ./Server
 
+# Json Server
+
+Documentación en https://github.com/clue/docker-json-server
+
+> docker run -d -p 9090:80 -v <path absoluto>/articles.json:/data/db.json clue/json-server
+
+Navegar a localhost:9090
+
+
 #TODO
 
 * Hacer que el ejecutable se cree en la raíz del proyecto
