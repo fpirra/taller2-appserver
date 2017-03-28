@@ -51,3 +51,14 @@ https://github.com/cesanta/mongoose
 https://docs.cesanta.com/mongoose/master/#/overview/
 https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
 
+# Observación
+
+cmake lee los archivos CMakeLists.txt al lanzar el comando:
+
+> cmake .
+
+Siendo . la ubicación actual. Generando así archivos Makefile que tienen lo necesario para poder crear el proyecto con el comando
+
+> make
+
+
