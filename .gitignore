@@ -3,3 +3,5 @@ CMakeFiles/
 Hola
 Makefile
 cmake_install.cmake
+*.a
+src/Server
