@@ -100,6 +100,9 @@ Documentación en https://github.com/clue/docker-json-server
 
 Navegar a localhost:9090
 
+# Herramienta de log: SPDLog
+Para instalar las dependencias necesarias en ubuntu: 
+> sudo apt-get install libspdlog-dev
 
 #TODO
 
