@@ -39,7 +39,33 @@ En linux Mint:
 
 Comandos de https://hub.docker.com/_/mongo/
 
-> sudo docker pull mongo sudo docker run --name some-mongo -d mongo
+> sudo docker pull mongo
+
+> sudo docker run --name some-mongo -d mongo
+
+Para poder ejecutar cualquier programa que utilice una base de datos de MongoDB, debemos tener el demonio `mongod` corriendo.
+Para poder ejecutarlo, usando docker:
+## Ejecuciones
+
+### Ejecutar el demonio `mongod`
+
+    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb
+
+### Ejecutar el demonio `mongod` w/ persistent/shared directory
+
+    docker run -d -p 27017:27017 -v <db-dir>:/data/db --name mongodb dockerfile/mongodb
+
+### Ejecutar el demonio `mongod` w/ HTTP support
+
+    docker run -d -p 27017:27017 -p 28017:28017 --name mongodb dockerfile/mongodb mongod --rest --httpinterface
+
+### Ejecutar el demonio `mongod` w/ Smaller default file size
+
+    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb mongod --smallfiles
+
+### Ejecutar la shell `mongo`
+
+    docker run -it --rm --link mongodb:mongodb dockerfile/mongodb bash -c 'mongo --host mongodb'
 
 # Mongoose
 
