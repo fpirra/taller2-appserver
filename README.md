@@ -79,17 +79,24 @@ https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
 
 # Instalar el servidor
 
-cmake lee los archivos CMakeLists.txt al lanzar el comando:
+Crear el directorio `build`, en la carpeta raiz del proyecto
 
-> cmake .
+> mkdir build
 
-Siendo . la ubicación actual. Generando así archivos Makefile que tienen lo necesario para poder crear el proyecto con el comando
+Luego entrar dentro, y ejecutar `cmake`:
+
+> cd build
+
+> cmake ..
+
+Por ultimo, compilar usando `make`:
 
 > make
 
 # Correr servidor
 
 > cd src
+
 > ./Server
 
 # Json Server
@@ -100,9 +107,6 @@ Documentación en https://github.com/clue/docker-json-server
 
 Navegar a localhost:9090
 
-# Herramienta de log: SPDLog
-Para instalar las dependencias necesarias en ubuntu: 
-> sudo apt-get install libspdlog-dev
 
 #TODO
 
