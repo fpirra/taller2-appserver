@@ -15,6 +15,7 @@ find_package(Threads)
 
 # Añadir dependencias a otras acciones
 add_dependencies (Server mongoose)
+add_dependencies (Server spdlog)
 
 # Agrego el directorio donde estan los headers 
 include_directories ("${PROJECT_SOURCE_DIR}/mongoose-cpp")
@@ -24,6 +25,7 @@ target_include_directories(testDB PRIVATE ${LIBMONGOCXX_INCLUDE_DIRS} PRIVATE ${
 
 # Linkeo para generar el binario, server, en base a sus dependencias con otros binarios
 target_link_libraries (Server mongoose)
+target_link_libraries (Server spdlog)
 target_link_libraries(testDB PRIVATE ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} Threads::Threads )
 
 
