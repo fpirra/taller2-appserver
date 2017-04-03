@@ -23,6 +23,7 @@ add_dependencies (Server spdlog)
 
 # Agrego el directorio donde estan los headers 
 include_directories ("${PROJECT_SOURCE_DIR}/mongoose-cpp")
+include_directories ("${PROJECT_SOURCE_DIR}/jsoncpp")
 include_directories ("${PROJECT_SOURCE_DIR}/spdlog")
 include_directories ("${PROJECT_SOURCE_DIR}/src")
 link_directories(${LIBMONGOCXX_LIBRARY_DIRS} ${LIBBSONCXX_LIBRARY_DIRS})
@@ -31,7 +32,7 @@ target_include_directories(Server PRIVATE ${LIBMONGOCXX_INCLUDE_DIRS} PRIVATE ${
 # Linkeo para generar el binario, server, en base a sus dependencias con otros binarios
 target_link_libraries (Server mongoose)
 target_link_libraries (Server spdlog)
-target_link_libraries (Server PRIVATE ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} Threads::Threads )
+target_link_libraries (Server ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} Threads::Threads )
 
 
 

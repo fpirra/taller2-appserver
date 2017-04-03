@@ -3,6 +3,7 @@
 #include "mongoose/Request.h"
 #include "mongoose/Controller.h"
 #include "mongoose/StreamResponse.h"
+#include "json.h"
 
 using namespace std;
 using namespace Mongoose;
