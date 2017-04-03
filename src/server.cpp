@@ -5,34 +5,18 @@
 #include <mongoose/WebController.h>
 #include "spdlog/spdlog.h"
 #include <memory>
+#include "ServerController.h"
 
 using namespace std;
 using namespace Mongoose;
 namespace spd = spdlog;
 
-class MyController : public WebController{
-    public: 
-        void hello(Request &request, StreamResponse &response){
-          response << "Hello " << htmlEntities(request.get("name", "... what's your name ?")) << endl;
-        }
-
-        void test(Request &request, StreamResponse &response){
-          response << "Testing " << htmlEntities(request.get("test", "... estamos probando como funca esto")) << endl;
-        }
-
-        void setup(){
-            addRoute("GET", "/hello", MyController, hello);
-            addRoute("GET", "/testing", MyController, test);
-        }
-};
-
-
 int main(){
     int port = 8080;
     string msgToLog;
-    MyController myController;
+    ServerController serverController;
     Server server(port);
-    server.registerController(&myController);
+    server.registerController(&serverController);
 
     server.start(); 
 
