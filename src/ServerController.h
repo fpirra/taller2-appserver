@@ -1,9 +1,10 @@
-#ifndef WEB_CONTROLLER_SERVER_H
-#define WEB_CONTROLLER_SERVER_H
+#ifndef SERVER_CONTROLLER_H
+#define SERVER_CONTROLLER_H
 
 #include <mongoose/WebController.h>
 
 class ServerController : public Mongoose::WebController {
+    
     private:
 
     public:

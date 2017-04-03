@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-
+# Agrego todos los .h y .cpp del proyecto
 file(GLOB SOURCES
     ${PROJECT_SOURCE_DIR}/src/*.h
     ${PROJECT_SOURCE_DIR}/src/*.cpp
@@ -8,11 +8,9 @@ file(GLOB SOURCES
 
 # Generar el ejecutable
 add_executable (Server ${SOURCES} )
-#add_executable (testDB DBhandler.cpp)
 
-# Agrego flags a cada ejecutable
+# Agrego flags 
 target_compile_options(Server PRIVATE -std=c++11 )
-#target_compile_options(testDB PRIVATE -std=c++11 )
 
 # Busco los paquetes necesarios para compilar
 find_package(libbsoncxx)
@@ -28,12 +26,12 @@ include_directories ("${PROJECT_SOURCE_DIR}/mongoose-cpp")
 include_directories ("${PROJECT_SOURCE_DIR}/spdlog")
 include_directories ("${PROJECT_SOURCE_DIR}/src")
 link_directories(${LIBMONGOCXX_LIBRARY_DIRS} ${LIBBSONCXX_LIBRARY_DIRS})
-#target_include_directories(testDB PRIVATE ${LIBMONGOCXX_INCLUDE_DIRS} PRIVATE ${LIBBSONCXX_INCLUDE_DIRS})
+target_include_directories(Server PRIVATE ${LIBMONGOCXX_INCLUDE_DIRS} PRIVATE ${LIBBSONCXX_INCLUDE_DIRS})
 
 # Linkeo para generar el binario, server, en base a sus dependencias con otros binarios
 target_link_libraries (Server mongoose)
 target_link_libraries (Server spdlog)
-#target_link_libraries(testDB PRIVATE ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} Threads::Threads )
+target_link_libraries (Server PRIVATE ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} Threads::Threads )
 
 
 

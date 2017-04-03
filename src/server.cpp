@@ -6,6 +6,7 @@
 #include "spdlog/spdlog.h"
 #include <memory>
 #include "ServerController.h"
+#include "DBhandler.h"
 
 using namespace std;
 using namespace Mongoose;
@@ -19,6 +20,10 @@ int main(){
     server.registerController(&serverController);
 
     server.start(); 
+
+    // Testing DBhandler
+    DBhandler dbhandler;
+    cout << dbhandler.getValue("Probando dbHandler") << endl;
 
     // Testing logger
     auto serverLog = spd::stdout_color_mt("serverLog");
