@@ -20,64 +20,73 @@ sistema.
 
 # Instalación
 
-## Docker para linux
+## Dependencias
 
-### Para Ubuntu
+### Instalacion MongoDB comunidad
 
-https://www.docker.com/docker-ubuntu
+Agregar la clave:
 
-### Para Mint
+> sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
 
-http://linuxbsdos.com/2016/12/13/how-to-install-docker-and-run-docker-containers-on-linux-mint-1818-1/
+Luego, segun la version de Ubuntu:
 
-## Instalar docker-compose
+#### Ubuntu 12.04
 
-En linux Mint:
->sudo apt install docker-c
+> echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
-# MongoDB
+#### Ubuntu 14.04
 
-Comandos de https://hub.docker.com/_/mongo/
+> echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
-> sudo docker pull mongo
+#### Ubuntu 16.04
 
-> sudo docker run --name some-mongo -d mongo
+> echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
-Para poder ejecutar cualquier programa que utilice una base de datos de MongoDB, debemos tener el demonio `mongod` corriendo.
-Para poder ejecutarlo, usando docker:
-## Ejecuciones
+Luego, actualizar los paquetes
 
-### Ejecutar el demonio `mongod`
+> sudo apt-get update
 
-    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb
+Instalar mongoDB, version comunidad:
 
-### Ejecutar el demonio `mongod` w/ persistent/shared directory
+> sudo apt-get install -y mongodb-org
 
-    docker run -d -p 27017:27017 -v <db-dir>:/data/db --name mongodb dockerfile/mongodb
+Iniciar el demonio `mongod`. Esto es vital para que funcione el server, ya que es el servidor de mongoDB
 
-### Ejecutar el demonio `mongod` w/ HTTP support
+> sudo service mongod start
 
-    docker run -d -p 27017:27017 -p 28017:28017 --name mongodb dockerfile/mongodb mongod --rest --httpinterface
+### Instalacion mongocxx driver
 
-### Ejecutar el demonio `mongod` w/ Smaller default file size
+Una vez realizada la instalacion de mongoDB, en su version comunidad, procederemos a instalar el driver de mongocxx, para poder utilizar con C++
 
-    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb mongod --smallfiles
+Primero, instalamos el driver para C:
 
-### Ejecutar la shell `mongo`
+> git clone https://github.com/mongodb/mongo-c-driver.git
 
-    docker run -it --rm --link mongodb:mongodb dockerfile/mongodb bash -c 'mongo --host mongodb'
+> cd mongo-c-driver
 
-# Mongoose
+> git checkout 1.6.1  # Para buildear la version 1.6.1 que necesita el driver 
 
-##Documentación y bibliografía
+> ./autogen.sh --with-libbson=bundled
 
-https://github.com/cesanta/mongoose/blob/master/examples/examples.mk
-https://github.com/cesanta/mongoose/tree/master/examples/simplest_web_server
-https://github.com/cesanta/mongoose
-https://docs.cesanta.com/mongoose/master/#/overview/
-https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
+> make
 
-# Instalar el servidor
+> sudo make install
+
+Luego el driver para C++:
+
+> git clone https://github.com/mongodb/mongo-cxx-driver.git --branch releases/stable --depth 1
+
+> cd mongo-cxx-driver/build
+
+> cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+
+> sudo make EP_mnmlstc_core
+
+> make && sudo make install
+
+Con estos pasos tendrian que estar listas las dependencias necesarias, por cualquier duda el link a la pagina de instalacion del driver es: https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
+
+## Compilar y correr el server
 
 Crear el directorio `build`, en la carpeta raiz del proyecto
 
@@ -93,22 +102,11 @@ Por ultimo, compilar usando `make`:
 
 > make
 
-# Correr servidor
+### Correr el server
 
 > cd src
 
 > ./Server
 
-# Json Server
 
-Documentación en https://github.com/clue/docker-json-server
-
-> docker run -d -p 9090:80 -v <path absoluto>/articles.json:/data/db.json clue/json-server
-
-Navegar a localhost:9090
-
-
-#TODO
-
-* Hacer que el ejecutable se cree en la raíz del proyecto
 
