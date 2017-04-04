@@ -2,11 +2,12 @@
 #define SERVER_CONTROLLER_H
 
 #include <mongoose/JsonController.h>
+#include "DBhandler.h"
 
 class ServerController : public Mongoose::JsonController {
     
     private:
-
+        DBhandler dbhandler;
     public:
         ServerController();
         ~ServerController();

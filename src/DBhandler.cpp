@@ -1,38 +1,73 @@
+#include <cstdint>
 #include <iostream>
-#include <bsoncxx/builder/stream/document.hpp>
+#include <vector>
 #include <bsoncxx/json.hpp>
 #include <mongocxx/client.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/uri.hpp>
+#include <bsoncxx/builder/stream/document.hpp>
 #include <mongocxx/instance.hpp>
+#include <bsoncxx/types.hpp>
 #include "DBhandler.h"
+
+using bsoncxx::builder::stream::close_array;
+using bsoncxx::builder::stream::close_document;
+using bsoncxx::builder::stream::document;
+using bsoncxx::builder::stream::finalize;
+using bsoncxx::builder::stream::open_array;
+using bsoncxx::builder::stream::open_document;
 
 using namespace std;
 
 DBhandler::DBhandler(){
-    mongocxx::instance inst{};
-    mongocxx::client conn{mongocxx::uri{}};
+    mongocxx::instance instance{}; 
+};
 
+DBhandler::~DBhandler(){
+};
+
+void DBhandler::insert(int key, string value){
+    mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
+    mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
+    mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+
+    // Creo un documento, en formato json, para insertar
     bsoncxx::builder::stream::document document{};
 
-    auto collection = conn["testdb"]["testcollection"];
-    document << "hello" << "world";
+    document << "IdSong" << key;
+    document << "SongFile" << value;
+    tSongs.insert_one(document.view());
+};
 
-    collection.insert_one(document.view());
-    auto cursor = collection.find({});
+string DBhandler::get(int key){
+    mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
+    mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
+    mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+
+    mongocxx::stdx::optional<bsoncxx::document::value> result =
+         tSongs.find_one(document{} << "IdSong" << key << finalize);
+
+    return bsoncxx::to_json(*result);
+};
+
+void DBhandler::deleteByKey(int key) {
+    mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
+    mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
+    mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+
+    tSongs.delete_one(document{} << "IdSong" << key << finalize);
+};
+
+void DBhandler::showDB(){
+    mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
+    mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
+    mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+ 
+    auto cursor = tSongs.find({});
 
     for (auto&& doc : cursor) {
         std::cout << bsoncxx::to_json(doc) << std::endl;
     }
-}
+};
 
-DBhandler::~DBhandler() {
-}
 
-void DBhandler::putValue(string key, string value){
-}
-
-string DBhandler::getValue(string key){
-    return key;
-}
-
-void DBhandler::deleteKey(string key) {
-}

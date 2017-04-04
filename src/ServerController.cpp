@@ -4,6 +4,7 @@
 #include "mongoose/Controller.h"
 #include "mongoose/JsonResponse.h"
 #include <json/json.h>
+#include "DBhandler.h"
 
 using namespace std;
 using namespace Mongoose;
@@ -18,6 +19,8 @@ void ServerController::setup() {
     setPrefix("/appsvr"); // Agrego un prefijo, a la ruta por defecto
    
     addRouteResponse("GET", "/hellojson", ServerController, hellojson, JsonResponse);
+
+
 
 }
 
