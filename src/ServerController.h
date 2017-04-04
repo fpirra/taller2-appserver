@@ -1,9 +1,9 @@
 #ifndef SERVER_CONTROLLER_H
 #define SERVER_CONTROLLER_H
 
-#include <mongoose/WebController.h>
+#include <mongoose/JsonController.h>
 
-class ServerController : public Mongoose::WebController {
+class ServerController : public Mongoose::JsonController {
     
     private:
 
@@ -11,9 +11,9 @@ class ServerController : public Mongoose::WebController {
         ServerController();
         ~ServerController();
 
-        // Testeando funcion basica
-        void hello(Mongoose::Request &request, Mongoose::StreamResponse &response);
-        
+        // Testeando json response
+        void hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response);
+
         virtual void setup();
 
 };

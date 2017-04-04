@@ -2,8 +2,8 @@
 #include "mongoose/RequestHandler.h"
 #include "mongoose/Request.h"
 #include "mongoose/Controller.h"
-#include "mongoose/StreamResponse.h"
-#include "json.h"
+#include "mongoose/JsonResponse.h"
+#include <json/json.h>
 
 using namespace std;
 using namespace Mongoose;
@@ -17,11 +17,10 @@ ServerController::~ServerController(){
 void ServerController::setup() {
     setPrefix("/appsvr"); // Agrego un prefijo, a la ruta por defecto
    
-    addRoute("GET", "/hello", ServerController, hello);
+    addRouteResponse("GET", "/hellojson", ServerController, hellojson, JsonResponse);
 
 }
 
-void ServerController::hello(Request &request, StreamResponse &response) {
-    response << "Hello " << htmlEntities(request.get("name", "... what's your name ?")) << endl;
-}
-
+void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response){
+    response["data"] = "Testing Json response";
+};
