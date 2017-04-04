@@ -86,6 +86,24 @@ Luego el driver para C++:
 
 Con estos pasos tendrian que estar listas las dependencias necesarias, por cualquier duda el link a la pagina de instalacion del driver es: https://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/
 
+### Instalacion JsonCpp
+
+Bajar el repositorio oficial
+
+> git clone https://github.com/open-source-parsers/jsoncpp.git
+
+Luego ejecutar:
+
+> mkdir build 
+
+> cd build 
+
+> cmake .. 
+
+> sudo make install
+
+Para tener instalado en el sistema, las librerias de Json
+
 ## Compilar y correr el server
 
 Crear el directorio `build`, en la carpeta raiz del proyecto
