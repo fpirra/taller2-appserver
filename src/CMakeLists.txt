@@ -23,7 +23,6 @@ add_dependencies (Server spdlog)
 
 # Agrego el directorio donde estan los headers 
 include_directories ("${PROJECT_SOURCE_DIR}/mongoose-cpp")
-include_directories ("${PROJECT_SOURCE_DIR}/jsoncpp")
 include_directories ("${PROJECT_SOURCE_DIR}/spdlog")
 include_directories ("${PROJECT_SOURCE_DIR}/src")
 link_directories(${LIBMONGOCXX_LIBRARY_DIRS} ${LIBBSONCXX_LIBRARY_DIRS})

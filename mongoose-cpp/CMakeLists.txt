@@ -15,7 +15,7 @@ option (CPP_BINDING
     "Enables C++ binding" ON)
 
 option (HAS_JSONCPP
-    "Enables JsonCpp" OFF)
+    "Enables JsonCpp" ON)
 
 option (ENABLE_STATS
     "Enable server statistics" ON)
@@ -67,6 +67,7 @@ if (CPP_BINDING)
             )
 
         include_directories ("${JSONCPP_DIR}/include/")
+    SET (CMAKE_CXX_FLAGS "-std=c++11")
     endif (HAS_JSONCPP)
 
     if (WEBSOCKET)
@@ -99,7 +100,7 @@ add_library (mongoose ${SOURCES})
 target_link_libraries (mongoose ${EXTRA_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 if (HAS_JSONCPP)
-    target_link_libraries (mongoose json)
+    target_link_libraries (mongoose jsoncpp)
 endif (HAS_JSONCPP)
 
 if (EXAMPLES OR MAIN)

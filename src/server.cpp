@@ -2,7 +2,6 @@
 #include <signal.h>
 #include <unistd.h>
 #include <mongoose/Server.h>
-#include <mongoose/WebController.h>
 #include "spdlog/spdlog.h"
 #include <memory>
 #include "ServerController.h"
