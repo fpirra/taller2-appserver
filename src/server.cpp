@@ -12,7 +12,6 @@ namespace spd = spdlog;
 
 int main(){
     int port = 8080;
-    string msgToLog;
     ServerController serverController;
     Server server(port);
     server.registerController(&serverController);
