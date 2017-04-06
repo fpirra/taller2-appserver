@@ -34,8 +34,8 @@ void DBhandler::insert(int key, string value){
     // Creo un documento, en formato json, para insertar
     bsoncxx::builder::stream::document document{};
 
-    document << "IdSong" << key;
-    document << "SongFile" << value;
+    document << "id_song" << key;
+    document << "song_file" << value;
     tSongs.insert_one(document.view());
 };
 
@@ -45,9 +45,11 @@ string DBhandler::get(int key){
     mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
 
     mongocxx::stdx::optional<bsoncxx::document::value> result =
-         tSongs.find_one(document{} << "IdSong" << key << finalize);
+         tSongs.find_one(document{} << "id_song" << key << finalize);
+    bsoncxx::document::view resultView = result->view(); // Como son de solo lectura los archivos bsoncxx, utilizo el view, que me devuelve
+                                                        // un bsoncxx::document::element , luego lo proceso para sacar el string. 
 
-    return bsoncxx::to_json(*result);
+    return resultView["song_file"].get_utf8().value.to_string();
 };
 
 void DBhandler::deleteByKey(int key) {
@@ -55,7 +57,7 @@ void DBhandler::deleteByKey(int key) {
     mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
     mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
 
-    tSongs.delete_one(document{} << "IdSong" << key << finalize);
+    tSongs.delete_one(document{} << "song_file" << key << finalize);
 };
 
 void DBhandler::showDB(){

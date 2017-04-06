@@ -2,8 +2,8 @@
 #include <signal.h>
 #include <unistd.h>
 #include <mongoose/Server.h>
-#include "spdlog/spdlog.h"
 #include <memory>
+#include "spdlog/spdlog.h"
 #include "ServerController.h"
 
 using namespace std;
