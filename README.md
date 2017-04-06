@@ -18,6 +18,21 @@ sistema.
 
 95178 - Francisco Pirra
 
+
+# API para interactuar con el server
+
+Pedir cancion:
+
+>  "POST", "appsvr/song", (parametros: api_token , id_song)
+
+Agregar cancion:
+
+>  "PUT", "appsvr/song", (parametros: api_token , id_song, song_file)
+
+Borrar cancion: 
+
+>  "DELETE", "appsvr/song", (parametros: api_token , id_song)
+
 # Instalación
 
 ## Dependencias
