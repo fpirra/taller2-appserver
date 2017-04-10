@@ -3,7 +3,8 @@
 #include <unistd.h>
 #include <mongoose/Server.h>
 #include <memory>
-#include "spdlog/spdlog.h"
+#include <string>
+#include "Logger.h"
 #include "ServerController.h"
 
 using namespace std;
@@ -11,23 +12,26 @@ using namespace Mongoose;
 namespace spd = spdlog;
 
 int main(int argc, char* argv[]){
-
     int port = 8080;
-    // Si se pasa un puerto por parametro se lo usa 
     if (argc > 1) port = atoi(argv[1]);
 
-    ServerController* serverController = new ServerController();
+    Log_mode log_mode = NORMAL;
+    if (argc > 2) {
+        log_mode = DBG;
+    }
+
+    Logger* logger = new Logger(log_mode);
+    ServerController* serverController = new ServerController(logger);
+    
     Server server(port);
     server.registerController(serverController);
 
     server.start(); 
 
-    auto serverLog = spd::stdout_color_mt("serverLog");
-    serverLog->info("(-> UnderFy <-)");    
-    serverLog->info("Puerto: {0:d}", port );
-    serverLog->error("Asi se veria un error");
-    spd::set_level(spd::level::debug); // Set the logger, to debug mode
-    serverLog->debug("Hola, estoy mostrando un mensaje en modo debug");
+    logger->log("(-> UnderFy <-)", Log_type::INFO);    
+    logger->log("Puerto: " + to_string(port), Log_type::INFO);
+    logger->log("Asi se veria un error", Log_type::ERROR);
+    logger->log("Hola, estoy mostrando un mensaje en modo debug", Log_type::DEBUG);
 
     // Loop server
     bool online = true;
@@ -35,17 +39,16 @@ int main(int argc, char* argv[]){
     while (online) {
         getline(cin, keypressed);
         if (keypressed == "q") {
-            serverLog->warn("Cerrando servidor, por favor aguarde...");
+            logger->log("Cerrando servidor, por favor aguarde...", Log_type::WARN);
             online = false;
         }
         sleep(10);
     }
 
-
     server.stop();
     spd::drop_all();
     delete serverController;
-    serverLog->info("El servidor se ha cerrado correctamente");
+    logger->log("El servidor se ha cerrado correctamente", Log_type::INFO);
     return 1;
 
 }

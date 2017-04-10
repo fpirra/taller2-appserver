@@ -3,15 +3,15 @@
 
 #include <mongoose/JsonController.h>
 #include "DBhandler.h"
-#include "spdlog/spdlog.h"
+#include "Logger.h"
 
 class ServerController : public Mongoose::JsonController {
     
     private:
         DBhandler* dbhandler;
-        std::shared_ptr<spdlog::logger> controller_log;
+        Logger* logger;
     public:
-        ServerController();
+        ServerController(Logger* logger);
         ~ServerController();
 
         // Testeando json response

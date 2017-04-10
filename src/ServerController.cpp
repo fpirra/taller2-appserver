@@ -1,19 +1,19 @@
 #include <json/json.h>
+#include <string>
 #include "mongoose/RequestHandler.h"
 #include "mongoose/Request.h"
 #include "mongoose/Controller.h"
 #include "mongoose/JsonResponse.h"
-#include "spdlog/spdlog.h"
+#include "Logger.h"
 #include "ServerController.h"
 #include "DBhandler.h"
 
 using namespace std;
 using namespace Mongoose;
-namespace spd = spdlog;
 
-ServerController::ServerController(){
+ServerController::ServerController(Logger* logger){
     this->dbhandler = new DBhandler();
-    controller_log = spd::stdout_color_mt("controller_log");
+    this->logger = logger;
 
 }
 
@@ -39,6 +39,7 @@ void ServerController::setup(){
 
 void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response){
     response["data"] = "Testing Json response";
+    logger->log("Testing OK", Log_type::INFO);
 };
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
@@ -46,7 +47,7 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
     string song_file = dbhandler->get(id_song);
     response["song_file"] = song_file;
 
-    controller_log->info("Se envio la cancion: {0}", song_file );
+    logger->log("Se envio la cancion: " + song_file, Log_type::INFO);
 };
 
 void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
@@ -55,7 +56,7 @@ void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonRespon
     dbhandler->insert(id_song, song_file);
 
     response["data"] = "Song added !";
-    controller_log->info("Se agrego la cancion: {0} a la base de datos", song_file );
+    logger->log("Se agrego la cancion: " + song_file + " a la base de datos", Log_type::INFO);
 };
 
 void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
@@ -63,5 +64,5 @@ void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonRespon
     dbhandler->deleteByKey(id_song);
 
     response["data"] = "Song deleted !";
-    controller_log->info("Se borro la cancion: {0:d} de la base de datos", id_song );
+    logger->log("Se borro la cancion: " + to_string(id_song) + " de la base de datos", Log_type::INFO);
 };
