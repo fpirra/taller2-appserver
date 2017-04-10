@@ -7,6 +7,7 @@
 #include "Logger.h"
 #include "ServerController.h"
 #include "DBhandler.h"
+#include "Validator.h"
 
 using namespace std;
 using namespace Mongoose;
@@ -43,6 +44,7 @@ void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonRespo
 };
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
+
     int id_song = stoi(request.get("id_song", ""));
     string song_file = dbhandler->get(id_song);
     response["song_file"] = song_file;

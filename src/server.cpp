@@ -30,8 +30,6 @@ int main(int argc, char* argv[]){
 
     logger->log("(-> UnderFy <-)", Log_type::INFO);    
     logger->log("Puerto: " + to_string(port), Log_type::INFO);
-    logger->log("Asi se veria un error", Log_type::ERROR);
-    logger->log("Hola, estoy mostrando un mensaje en modo debug", Log_type::DEBUG);
 
     // Loop server
     bool online = true;
