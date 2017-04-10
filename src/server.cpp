@@ -46,6 +46,7 @@ int main(int argc, char* argv[]){
     server.stop();
     spd::drop_all();
     delete serverController;
+    delete logger;
     logger->log("El servidor se ha cerrado correctamente", Log_type::INFO);
     return 1;
 

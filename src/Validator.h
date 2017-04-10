@@ -13,7 +13,7 @@ class Validator{
         Validator();
         ~Validator();
 
-        bool validate_token(string user, string token);
+        bool validate_token(string token);
 };
 
 #endif

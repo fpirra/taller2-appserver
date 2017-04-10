@@ -4,12 +4,14 @@
 #include <mongoose/JsonController.h>
 #include "DBhandler.h"
 #include "Logger.h"
+#include "Validator.h"
 
 class ServerController : public Mongoose::JsonController {
     
     private:
         DBhandler* dbhandler;
         Logger* logger;
+        Validator* validator;
     public:
         ServerController(Logger* logger);
         ~ServerController();
