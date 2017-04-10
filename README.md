@@ -139,7 +139,7 @@ Por ultimo, compilar usando `make`:
 
 > cd src
 
-> ./Server
+> ./Server <puerto>
 
 
 

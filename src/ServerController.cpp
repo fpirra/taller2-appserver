@@ -18,6 +18,7 @@ ServerController::ServerController(){
 }
 
 ServerController::~ServerController(){
+    delete this->dbhandler;
 }
 
 void ServerController::setup(){
