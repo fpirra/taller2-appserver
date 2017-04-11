@@ -23,15 +23,15 @@ sistema.
 
 Pedir cancion:
 
->  "POST", "appsvr/song", (parametros: api_token , id_song)
+>  "GET", "appsvr/song", (header: api_token, parametros: id_song)
 
 Agregar cancion:
 
->  "PUT", "appsvr/song", (parametros: api_token , id_song, song_file)
+>  "PUT", "appsvr/song", (header: api_token, parametros: id_song, song_file)
 
 Borrar cancion: 
 
->  "DELETE", "appsvr/song", (parametros: api_token , id_song)
+>  "DELETE", "appsvr/song", (header: api_token, parametros: id_song)
 
 # Instalación
 
