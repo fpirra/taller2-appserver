@@ -4,4 +4,5 @@ project(server)
 add_subdirectory(src)
 add_subdirectory(mongoose-cpp)
 add_subdirectory(spdlog)
+add_subdirectory(tests)
 
