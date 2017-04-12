@@ -46,8 +46,15 @@ void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonRespo
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+        int id_song;
+        try{
+            id_song = stoi(request.get("id_song", ""));
+        } catch(invalid_argument&) {
+            response = response_handler.build_response(400, "id_song invalido");
+            logger->log("400 - El id de cancion es invalido ", Log_type::ERROR);
+            return ;
+        }
 
-        int id_song = stoi(request.get("id_song", ""));
         string song_file = dbhandler->get(id_song);
 
         response = response_handler.build_response(201, song_file);
@@ -62,9 +69,23 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
 
 void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+        int id_song;
+        try{
+            id_song = stoi(request.get("id_song", ""));
+        } catch(invalid_argument&) {
+            response = response_handler.build_response(400, "id_song invalido");
+            logger->log("400 - El id de cancion es invalido ", Log_type::ERROR);
+            return ;
+        }
 
-        int id_song = stoi(request.get("id_song", ""));
         string song_file = request.get("song_file", "");
+
+        if (song_file == "" ){
+            response = response_handler.build_response(400, "No se recibio un cancion para cargar");
+            logger->log("400 - No se recibio un cancion para cargar ", Log_type::ERROR);
+            return ;
+        }
+
         dbhandler->insert(id_song, song_file);
 
         response = response_handler.build_response(201, "Alta correcta");
@@ -80,8 +101,15 @@ void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonRespon
 
 void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
-
-        int id_song = stoi(request.get("id_song", ""));
+        int id_song;
+        try{
+            id_song = stoi(request.get("id_song", ""));
+        } catch(invalid_argument&) {
+            response = response_handler.build_response(400, "id_song invalido");
+            logger->log("400 - El id de cancion es invalido ", Log_type::ERROR);
+            return ;
+        }
+        
         dbhandler->deleteByKey(id_song);
 
         response = response_handler.build_response(201, "Baja correcta");
