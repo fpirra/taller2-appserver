@@ -2,9 +2,15 @@
 #define SERVER_CONTROLLER_H
 
 #include <mongoose/JsonController.h>
+#include <json/json.h>
+#include <string>
+#include "mongoose/RequestHandler.h"
+#include "mongoose/Request.h"
+#include "mongoose/Controller.h"
 #include "DBhandler.h"
 #include "Logger.h"
 #include "Validator.h"
+#include "ResponseHandler.h"
 
 class ServerController : public Mongoose::JsonController {
     
@@ -12,6 +18,8 @@ class ServerController : public Mongoose::JsonController {
         DBhandler* dbhandler;
         Logger* logger;
         Validator* validator;
+        ResponseHandler response_handler;
+
     public:
         ServerController(Logger* logger);
         ~ServerController();

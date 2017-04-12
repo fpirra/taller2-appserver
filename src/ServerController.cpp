@@ -1,13 +1,4 @@
-#include <json/json.h>
-#include <string>
-#include "mongoose/RequestHandler.h"
-#include "mongoose/Request.h"
-#include "mongoose/Controller.h"
-#include "mongoose/JsonResponse.h"
-#include "Logger.h"
 #include "ServerController.h"
-#include "DBhandler.h"
-#include "Validator.h"
 
 using namespace std;
 using namespace Mongoose;
@@ -16,7 +7,7 @@ ServerController::ServerController(Logger* logger){
     this->dbhandler = new DBhandler();
     this->validator = new Validator();
     this->logger = logger;
-
+    this->response_handler;
 }
 
 ServerController::~ServerController(){
@@ -42,12 +33,12 @@ void ServerController::setup(){
 
 void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
-        response["code"] = 201;
-        response["message"] = "Testing Json response";
+
+        response = response_handler.build_response(201, "Testing Json response");
         logger->log("Testing OK", Log_type::INFO);     
+    
     } else {
-        response["code"] = 401;
-        response["message"] = "Token invalido";
+        response = response_handler.build_response(401, "Token invalido");
         logger->log("401 - El token recibido no es valido", Log_type::WARN);
     }
    
@@ -55,43 +46,51 @@ void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonRespo
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+
         int id_song = stoi(request.get("id_song", ""));
         string song_file = dbhandler->get(id_song);
-        response["code"] = 201;
-        response["message"] = song_file;
+
+        response = response_handler.build_response(201, song_file);
         logger->log("201 - Se envio la cancion: " + song_file, Log_type::INFO);
+    
     } else {
-        response["code"] = 401;
-        response["message"] = "Token invalido";
+
+        response = response_handler.build_response(401, "Token invalido");
         logger->log("401 - El token recibido no es valido", Log_type::WARN);
     }
 };
 
 void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+
         int id_song = stoi(request.get("id_song", ""));
         string song_file = request.get("song_file", "");
         dbhandler->insert(id_song, song_file);
-        response["code"] = 201;
-        response["message"] = "Alta correcta";
+
+        response = response_handler.build_response(201, "Alta correcta");
         logger->log("201 - Se agrego la cancion: " + song_file + " a la base de datos", Log_type::INFO);
+
     } else {
-        response["code"] = 401;
-        response["message"] = "Token invalido";
+
+        response = response_handler.build_response(401, "Token invalido");
         logger->log("401 - El token recibido no es valido", Log_type::WARN);
+
     }
 };
 
 void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+
         int id_song = stoi(request.get("id_song", ""));
         dbhandler->deleteByKey(id_song);
-        response["code"] = 201;
-        response["message"] = "Baja correcta";
+
+        response = response_handler.build_response(201, "Baja correcta");
         logger->log("201 - Se borro la cancion: " + to_string(id_song) + " de la base de datos", Log_type::INFO);
+
     } else {
-        response["code"] = 401;
-        response["message"] = "Token invalido";
+
+        response = response_handler.build_response(401, "Token invalido");
         logger->log("401 - El token recibido no es valido", Log_type::WARN);
+
     }
 };
