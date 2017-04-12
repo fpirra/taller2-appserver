@@ -21,17 +21,58 @@ sistema.
 
 # API para interactuar con el server
 
-Pedir cancion:
+### Pedir cancion:
 
->  "GET", "appsvr/song", (header: api_token, parametros: id_song)
+>  "GET", "appsvr/song", (header: Authorization, parametros: id_song)
 
-Agregar cancion:
+Respuestas:
 
->  "PUT", "appsvr/song", (header: api_token, parametros: id_song, song_file)
+201 Archivo de audio en base64, 404 No existe el recurso solicitado, 401 Token invalido, 500 Unexpected error
 
-Borrar cancion: 
+Esquema de respuesta:
 
->  "DELETE", "appsvr/song", (header: api_token, parametros: id_song)
+```json
+{
+ "code" : integer,
+ "message" : string   
+}
+```
+
+### Agregar/modificar cancion (si existe el archivo, lo sobreescribe):
+
+>  "PUT", "appsvr/song", (header: Authorization, parametros: id_song, song_file)
+
+Respuestas:
+
+201 Alta correcta, 400 Incumplimiento de precondiciones (parámetros faltantes), 401 Token invalido, 500 Unexpected error
+
+Esquema de respuesta:
+
+```json
+{
+ "code" : integer,
+ "message" : string   
+}
+```
+
+### Borrar cancion: 
+
+>  "DELETE", "appsvr/song", (header: Authorization, parametros: id_song)
+
+Respuestas:
+
+204 Baja correcta, 401 Token invalido, 404 No existe el recurso solicitado, 500 Unexpected error
+
+Esquema de respuesta:
+
+```json
+{
+ "code" : integer,
+ "message" : string   
+}
+```
+
+#### Por lo pronto, el unico token valido sera: "basic token". Siendo Authorization la key.
 
 # Instalación
 
@@ -139,7 +180,6 @@ Por ultimo, compilar usando `make`:
 
 > cd src
 
-> ./Server <puerto>
-
+> ./Server `<puerto>`
 
 

@@ -29,19 +29,19 @@ void ServerController::setup(){
    
     addRouteResponse("GET", "/hellojson", ServerController, hellojson, JsonResponse);
 
-    // Recibo por parametro: api_token , id_song
+    // Recibo por header: Authorization , y por parametro: id_song
     addRouteResponse("GET", "/song", ServerController, get_song, JsonResponse);
     
-    // Recibo por parametro: api_token , id_song, song_file
+    // Recibo por header: Authorization , y por parametro: id_song, song_file
     addRouteResponse("PUT", "/song", ServerController, add_song, JsonResponse);
 
-    // Recibo por parametro: api_token , id_song
+    // Recibo por header: Authorization , y por parametro: id_song
     addRouteResponse("DELETE", "/song", ServerController, del_song, JsonResponse);
 };
 
 
 void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response){
-    if ( validator->validate_token( request.getHeaderKeyValue("api_token") ) ){
+    if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
         response["data"] = "Testing Json response";
         logger->log("Testing OK", Log_type::INFO);     
     } else {
@@ -52,7 +52,7 @@ void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonRespo
 };
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
-    if ( validator->validate_token( request.getHeaderKeyValue("api_token") ) ){
+    if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
         int id_song = stoi(request.get("id_song", ""));
         string song_file = dbhandler->get(id_song);
         response["song_file"] = song_file;
@@ -64,7 +64,7 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
 };
 
 void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
-    if ( validator->validate_token( request.getHeaderKeyValue("api_token") ) ){
+    if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
         int id_song = stoi(request.get("id_song", ""));
         string song_file = request.get("song_file", "");
         dbhandler->insert(id_song, song_file);
@@ -77,7 +77,7 @@ void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonRespon
 };
 
 void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
-    if ( validator->validate_token( request.getHeaderKeyValue("api_token") ) ){
+    if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
         int id_song = stoi(request.get("id_song", ""));
         dbhandler->deleteByKey(id_song);
         response["data"] = "Song deleted !";
