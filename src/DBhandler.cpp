@@ -39,7 +39,7 @@ void DBhandler::insert(int key, string value){
     tSongs.insert_one(document.view());
 };
 
-string DBhandler::get(int key){
+bool DBhandler::get(int key, string& resultado){
     mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
     mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
     mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
@@ -49,15 +49,31 @@ string DBhandler::get(int key){
     bsoncxx::document::view resultView = result->view(); // Como son de solo lectura los archivos bsoncxx, utilizo el view, que me devuelve
                                                         // un bsoncxx::document::element , luego lo proceso para sacar el string. 
 
-    return resultView["song_file"].get_utf8().value.to_string();
+    resultado = resultView["song_file"].get_utf8().value.to_string();
+
+    //TODO: Hay que hacer el chequeo de si pudo realmente encontrar la cancion
+    //y devolver false si no se pudo.
+
+    return true;
 };
 
-void DBhandler::deleteByKey(int key) {
+bool DBhandler::deleteByKey(int key) {
     mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
     mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
     mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+    
+    mongocxx::stdx::optional<bsoncxx::document::value> result =
+         tSongs.find_one(document{} << "id_song" << key << finalize);
+    bsoncxx::document::view resultView = result->view(); // Como son de solo lectura los archivos bsoncxx, utilizo el view, que me devuelve
+                                                        // un bsoncxx::document::element , luego lo proceso para sacar el string. 
 
-    tSongs.delete_one(document{} << "song_file" << key << finalize);
+    if ( resultView["song_file"].get_utf8().value.to_string() == ""){
+        return false;
+    }
+
+    tSongs.delete_one(document{} << "song_file" << key << finalize) ;
+
+    return true ; 
 };
 
 void DBhandler::showDB(){

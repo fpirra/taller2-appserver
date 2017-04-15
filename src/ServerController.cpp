@@ -7,7 +7,7 @@ ServerController::ServerController(Logger* logger){
     this->dbhandler = new DBhandler();
     this->validator = new Validator();
     this->logger = logger;
-    this->response_handler;
+
 }
 
 ServerController::~ServerController(){
@@ -55,8 +55,14 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
             return ;
         }
 
-        string song_file = dbhandler->get(id_song);
+        string song_file;
 
+        if ( ! dbhandler->get(id_song, song_file) ){
+            response = response_handler.build_response(404, "No existe la cancion solicitada");
+            logger->log("404 - No existe la cancion solicitada", Log_type::ERROR);
+            return ;
+        };
+        
         response = response_handler.build_response(201, song_file);
         logger->log("201 - Se envio la cancion: " + song_file, Log_type::INFO);
     
@@ -109,8 +115,12 @@ void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonRespon
             logger->log("400 - El id de cancion es invalido ", Log_type::ERROR);
             return ;
         }
-        
-        dbhandler->deleteByKey(id_song);
+
+        if (!dbhandler->deleteByKey(id_song)){
+            response = response_handler.build_response(404, "No existe la cancion solicitada");
+            logger->log("404 - No existe la cancion solicitada", Log_type::ERROR);
+            return ;
+        };
 
         response = response_handler.build_response(201, "Baja correcta");
         logger->log("201 - Se borro la cancion: " + to_string(id_song) + " de la base de datos", Log_type::INFO);
