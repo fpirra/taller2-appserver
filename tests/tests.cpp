@@ -17,10 +17,12 @@ using namespace std;
 //    EXPECT_EQ(valorEsperado, funcionAtestear(valoresQueRecive));
 //  }
 
+// Se puede utilizar EXPECT_TRUE, EXPECT_FALSE o EXPECT_EQ. Segun sea el caso a testear
+
 TEST(Validator, ManejaTokenVacio) {
     string token = "";
     Validator* validator = new Validator();
-    EXPECT_EQ(false, validator->validate_token(token));
+    EXPECT_FALSE(validator->validate_token(token));
     delete validator;
 }
 
