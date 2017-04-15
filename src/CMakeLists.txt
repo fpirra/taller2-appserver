@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.4)
+ cmake_minimum_required(VERSION 2.8.4)
 
 # Agrego todos los .h y .cpp del proyecto
 file(GLOB SOURCES
@@ -10,7 +10,8 @@ file(GLOB SOURCES
 add_executable (Server ${SOURCES} )
 
 # Agrego flags 
-target_compile_options(Server PRIVATE -std=c++11 )
+SET(CMAKE_CXX_FLAGS "-O0 -std=c++11 -Wall ")
+SET(CMAKE_C_FLAGS "-O0 -std=c++11 -Wall -W ")
 
 # Busco los paquetes necesarios para compilar
 find_package(libbsoncxx)
