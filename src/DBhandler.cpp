@@ -34,9 +34,12 @@ void DBhandler::insert(int key, string value){
 
     // Creo un documento, en formato json, para insertar
     bsoncxx::builder::stream::document document{};
-
+    
+    this->deleteByKey(key); // Borro el anterior, si es que lo habia
+    
     document << "id_song" << key;
     document << "song_file" << value;
+
     tSongs.insert_one(document.view());
 };
 
