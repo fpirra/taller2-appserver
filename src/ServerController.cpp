@@ -18,7 +18,7 @@ ServerController::~ServerController(){
 void ServerController::setup(){
     setPrefix("/appsvr"); // Agrego un prefijo, a la ruta por defecto
    
-    addRouteResponse("GET", "/hellojson", ServerController, hellojson, JsonResponse);
+    addRouteResponse("GET", "/test", ServerController, test, JsonResponse);
 
     // Recibo por header: Authorization , y por parametro: id_song
     addRouteResponse("GET", "/song", ServerController, get_song, JsonResponse);
@@ -31,10 +31,10 @@ void ServerController::setup(){
 };
 
 
-void ServerController::hellojson(Mongoose::Request &request, Mongoose::JsonResponse &response){
+void ServerController::test(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
-
-        response = response_handler.build_response(201, "Testing Json response");
+        dbhandler->showDB();
+        response = response_handler.build_response(201, "Monstrando base de datos");
         logger->log("Testing OK", Log_type::INFO);     
     
     } else {
@@ -116,7 +116,7 @@ void ServerController::del_song(Mongoose::Request &request, Mongoose::JsonRespon
             return ;
         }
 
-        if (!dbhandler->deleteByKey(id_song)){
+        if ( ! dbhandler->deleteByKey(id_song) ){
             response = response_handler.build_response(404, "No existe la cancion solicitada");
             logger->log("404 - No existe la cancion solicitada", Log_type::ERROR);
             return ;
