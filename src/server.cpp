@@ -22,8 +22,10 @@ int main(int argc, char* argv[]){
 
     Logger* logger = new Logger(log_mode);
     ServerController* serverController = new ServerController(logger);
+
+    const char* carpeta_archivos = "./src/songs";
     
-    Server server(port);
+    Server server(port, carpeta_archivos);
     server.registerController(serverController);
 
     server.start(); 
