@@ -21,6 +21,7 @@ class DBhandler{
         // Borrar la clave de la base de datos
         bool deleteByKey(int key);
 
+        // Muestra la base de datos
         void showDB();
 };
 

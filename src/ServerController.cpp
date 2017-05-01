@@ -55,16 +55,22 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
             return ;
         }
 
-        string song_file;
+        string base64_song_file;
 
-        if ( ! dbhandler->get(id_song, song_file) ){
+        if ( ! dbhandler->get(id_song, base64_song_file) ){
             response = response_handler.build_response(404, "No existe la cancion solicitada");
             logger->log("404 - No existe la cancion solicitada", Log_type::ERROR);
             return ;
         };
-        
-        response = response_handler.build_response(201, song_file);
-        logger->log("201 - Se envio la cancion: " + song_file, Log_type::INFO);
+
+        // Probando streaming
+        string song_link;
+        songsHandler.getLink(base64_song_file, song_link);
+        logger->log("201 - Se envio el link: " + song_link, Log_type::INFO);
+        //--------------------
+
+        response = response_handler.build_response(201, base64_song_file);
+        logger->log("201 - Se envio la cancion: " + base64_song_file, Log_type::INFO);
     
     } else {
 

@@ -11,6 +11,7 @@
 #include "Logger.h"
 #include "Validator.h"
 #include "ResponseHandler.h"
+#include "SongsHandler.h"
 
 class ServerController : public Mongoose::JsonController {
     
@@ -18,6 +19,7 @@ class ServerController : public Mongoose::JsonController {
         DBhandler* dbhandler;
         Logger* logger;
         Validator* validator;
+        SongsHandler songsHandler;
         ResponseHandler response_handler;
 
     public:
