@@ -66,7 +66,7 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
         // Probando streaming
         string song_link;
         songsHandler.getLink(base64_song_file, song_link);
-        logger->log("201 - Se envio el link: " + song_link, Log_type::INFO);
+        //logger->log("201 - Se envio el link: " + song_link, Log_type::INFO);
         //--------------------
 
         response = response_handler.build_response(201, base64_song_file);
