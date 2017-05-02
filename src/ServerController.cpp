@@ -20,13 +20,13 @@ void ServerController::setup(){
    
     addRouteResponse("GET", "/test", ServerController, test, JsonResponse);
 
-    // Recibo por header: Authorization , y por parametro: id_song
+    // Recibo por HEADER: Authorization , y por PARAMETRO: id_song
     addRouteResponse("GET", "/song", ServerController, get_song, JsonResponse);
     
-    // Recibo por header: Authorization , y por parametro: id_song, song_file
+    // Recibo por HEADER: Authorization , por PARAMETRO: id_song y por BODY: song_file
     addRouteResponse("PUT", "/song", ServerController, add_song, JsonResponse);
 
-    // Recibo por header: Authorization , y por parametro: id_song
+    // Recibo por HEADER: Authorization , y por PARAMETRO: id_song
     addRouteResponse("DELETE", "/song", ServerController, del_song, JsonResponse);
 };
 
