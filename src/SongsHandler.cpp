@@ -31,7 +31,7 @@ bool SongsHandler::getLink(string& base64_song, string& song_link){
     outfile << base64_decode(base64_song);
     outfile.close();
 
-    song_link = server_domain + file_name;
+    song_link = server_domain + file_name + ".mp3";
     return true;
 };
 
