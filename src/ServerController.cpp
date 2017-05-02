@@ -55,20 +55,19 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
             return ;
         }
 
-        string base64_song_file;
+        string song_data_file;
 
-        if ( ! dbhandler->get(id_song, base64_song_file) ){
+        if ( ! dbhandler->get(id_song, song_data_file) ){
             response = response_handler.build_response(404, "No existe la cancion solicitada");
             logger->log("404 - No existe la cancion solicitada", Log_type::ERROR);
             return ;
         };
 
-        // Probando streaming
         string song_link;
-        songsHandler.getLink(base64_song_file, song_link);
+        songsHandler.getLink(song_data_file, song_link);
 
         response = response_handler.build_response(201, song_link);
-        logger->log("201 - Se envio la cancion: " + id_song, Log_type::INFO);
+        logger->log("201 - Se envio la cancion: " + to_string(id_song), Log_type::INFO);
     
     } else {
 
@@ -79,6 +78,7 @@ void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonRespon
 
 void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
+
         int id_song;
         try{
             id_song = stoi(request.get("id_song", ""));
@@ -88,18 +88,23 @@ void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonRespon
             return ;
         }
 
-        string song_file = request.get("song_file", "");
+        request.handleUploads();
+        vector<UploadFile>::iterator it = request.uploadFiles.begin();
+        int cantCargadas = 0;
+        for (; it != request.uploadFiles.end(); it++) {
+            UploadFile file = *it;
+            dbhandler->insert(id_song, file.getData());
+            cantCargadas++;
+        }  
 
-        if (song_file == "" ){
+        if (cantCargadas < 1 ){
             response = response_handler.build_response(400, "No se recibio un cancion para cargar");
             logger->log("400 - No se recibio un cancion para cargar ", Log_type::ERROR);
             return ;
         }
 
-        dbhandler->insert(id_song, song_file);
-
         response = response_handler.build_response(201, "Alta correcta");
-        logger->log("201 - Se agrego la cancion: " + song_file + " a la base de datos", Log_type::INFO);
+        logger->log("201 - Se agrego la cancion: " + to_string(id_song), Log_type::INFO);
 
     } else {
 

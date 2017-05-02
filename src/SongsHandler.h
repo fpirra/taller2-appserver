@@ -13,7 +13,8 @@ class SongsHandler{
         SongsHandler();
         ~SongsHandler();
 
-        bool getLink(string& base64_song, string& song_link);
+        bool getLink(string& song_data_file, string& song_link);
+        string encodeSong(unsigned char const* file);
 };
 
 #endif

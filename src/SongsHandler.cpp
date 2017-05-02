@@ -25,15 +25,19 @@ string generate_random_string(const int len) {
     return s;
 }
 
-bool SongsHandler::getLink(string& base64_song, string& song_link){
+bool SongsHandler::getLink(string& song_data_file, string& song_link){
     string file_name = generate_random_string(16);
-    std::ofstream outfile ("songs/" + file_name + ".mp3" );
-    outfile << base64_decode(base64_song);
+    std::ofstream outfile ("src/songs/" + file_name + ".mp3" );
+    outfile << song_data_file;
     outfile.close();
 
     song_link = server_domain + file_name + ".mp3";
     return true;
 };
+
+string SongsHandler::encodeSong(unsigned char const* file){
+    return base64_encode(file, sizeof(file));
+}
 
 
 
