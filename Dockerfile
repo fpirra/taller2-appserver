@@ -31,4 +31,11 @@ RUN git clone https://github.com/open-source-parsers/jsoncpp.git
 RUN cd jsoncpp ; mkdir build ; cd build ; cmake .. ; make install
 #----------------------
 
-# Falta clonar el repo, ejecutar el cmake en el server y buildearlo.
+# Copy the proyect files into the container
+COPY . /usr/src/appsvr
+RUN cd /usr/src/appsvr/build/ ; cmake .. ; make ;
+
+# Run server
+CMD ["./src/Server 9900"]
+
+
