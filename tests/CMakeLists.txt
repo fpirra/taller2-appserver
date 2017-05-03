@@ -49,9 +49,8 @@ include_directories("${source_dir}/googletest/include"
 
 # Agrego los archivos del server a testear
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src/)
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src/utils)
 file(GLOB TESTS_DIR *.cpp)
-FILE(GLOB SOURCE_PROGRAM_TO_TEST ../src/*.cpp ../src/utils/*.cpp)
+FILE(GLOB SOURCE_PROGRAM_TO_TEST ../src/*.cpp)
 
 
 # Borro el server.cpp, que contiene otro main, y entra en conflicto con el main del test

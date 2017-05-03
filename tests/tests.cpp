@@ -9,6 +9,7 @@
 #include "Validator.h"
 
 using namespace std;
+using namespace Mongoose;
 
 // Para generar tests, se utiliza la siguiente estructura:
 //
@@ -20,23 +21,38 @@ using namespace std;
 
 // Se puede utilizar EXPECT_TRUE, EXPECT_FALSE o EXPECT_EQ. Segun sea el caso a testear
 
-// TEST(DBhandler, ManejaTokenInvalidoOvacio) {
-//     string token = "";
-//     Validator* validator = new Validator();
-//     EXPECT_FALSE(validator->validate_token(token));
-//     token = "kadlkjasdfl";
-//     EXPECT_FALSE(validator->validate_token(token));
-//     delete validator;
-// }
+TEST(DBhandler, CargaCancionCorrecta) {
+    DBhandler* dbhandler = new DBhandler();
+    string textoRespuesta;
+    if (! dbhandler->get(99999999, textoRespuesta) ){
+        dbhandler->insert(99999999, "testSong");
+    }
+    dbhandler->get(99999999, textoRespuesta);
 
-// TEST(Logger, ManejaTokenInvalidoOvacio) {
-//     string token = "";
-//     Validator* validator = new Validator();
-//     EXPECT_FALSE(validator->validate_token(token));
-//     token = "kadlkjasdfl";
-//     EXPECT_FALSE(validator->validate_token(token));
-//     delete validator;
-// }
+    EXPECT_EQ("testSong", textoRespuesta);
+    delete dbhandler;
+}
+
+TEST(DBhandler, BorraCancionCorrecta) {
+    DBhandler* dbhandler = new DBhandler();
+    string textoRespuesta;
+    if (! dbhandler->get(99999999, textoRespuesta) ){
+        dbhandler->insert(99999999, "testSong");
+    }
+    dbhandler->deleteByKey(99999999);
+
+    EXPECT_FALSE(dbhandler->get(99999999, textoRespuesta));
+    delete dbhandler;
+}
+
+TEST(Logger, GenerarLogsCorrectamente) {
+    Logger* logger = new Logger(Log_mode::DBG);
+    logger->log("INFO", Log_type::INFO); 
+    logger->log("WARN", Log_type::WARN); 
+    logger->log("ERROR", Log_type::ERROR); 
+    logger->log("DEBUG", Log_type::DEBUG); 
+    delete logger;
+}
 
 TEST(ResponseHandler, RespondeCorrectamente) {
     Mongoose::JsonResponse response;
@@ -49,14 +65,19 @@ TEST(ResponseHandler, RespondeCorrectamente) {
     EXPECT_EQ(texto, textoRespuesta);
 }
 
-// TEST(ServerController, ManejaTokenInvalidoOvacio) {
-//     string token = "";
-//     Validator* validator = new Validator();
-//     EXPECT_FALSE(validator->validate_token(token));
-//     token = "kadlkjasdfl";
-//     EXPECT_FALSE(validator->validate_token(token));
-//     delete validator;
-// }
+TEST(SongsHandler, ManejaTokenInvalidoOvacio) {
+    // Log_mode log_mode = NORMAL;
+    // Logger* logger = new Logger(log_mode);
+    // ServerController* serverController = new ServerController(logger);
+    // Mongoose::Request request;
+    // Mongoose::JsonResponse response;
+    // serverController->get_song(request, response);
+
+    // string texto = "testeando respuesta";
+    // response = response_handler.build_response(201, texto);
+    // Json::Value jsonValue = response["message"];
+    // string textoRespuesta = jsonValue.asString();
+}
 
 TEST(Validator, ManejaTokenInvalidoOvacio) {
     string token = "";
