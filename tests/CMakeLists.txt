@@ -54,7 +54,7 @@ FILE(GLOB SOURCE_PROGRAM_TO_TEST ../src/*.cpp)
 
 
 # Borro el server.cpp, que contiene otro main, y entra en conflicto con el main del test
-list(REMOVE_ITEM SOURCE_PROGRAM_TO_TEST ${CMAKE_CURRENT_SOURCE_DIR}/../src/server.cpp)
+list(REMOVE_ITEM SOURCE_PROGRAM_TO_TEST ${CMAKE_CURRENT_SOURCE_DIR}/../src/server.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../src/ServerController.cpp)
 
 # Genero el ejecutable de los tests
 add_executable(tests ${TESTS_DIR} ${SOURCE_PROGRAM_TO_TEST} )

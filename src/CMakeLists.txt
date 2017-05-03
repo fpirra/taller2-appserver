@@ -4,8 +4,6 @@
 file(GLOB SOURCES
     ${PROJECT_SOURCE_DIR}/src/*.h
     ${PROJECT_SOURCE_DIR}/src/*.cpp
-    ${PROJECT_SOURCE_DIR}/src/utils/*.h
-    ${PROJECT_SOURCE_DIR}/src/utils/*.cpp
 )
 
 # Generar el ejecutable

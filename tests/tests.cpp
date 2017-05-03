@@ -7,6 +7,7 @@
 #include "ResponseHandler.h"
 #include "ServerController.h"
 #include "Validator.h"
+#include "SongsHandler.h"
 
 using namespace std;
 using namespace Mongoose;
@@ -65,19 +66,24 @@ TEST(ResponseHandler, RespondeCorrectamente) {
     EXPECT_EQ(texto, textoRespuesta);
 }
 
-TEST(SongsHandler, ManejaTokenInvalidoOvacio) {
-    // Log_mode log_mode = NORMAL;
-    // Logger* logger = new Logger(log_mode);
-    // ServerController* serverController = new ServerController(logger);
-    // Mongoose::Request request;
-    // Mongoose::JsonResponse response;
-    // serverController->get_song(request, response);
-
-    // string texto = "testeando respuesta";
-    // response = response_handler.build_response(201, texto);
-    // Json::Value jsonValue = response["message"];
-    // string textoRespuesta = jsonValue.asString();
+TEST(SongsHandler, GeneraLinkYarchivo) {
+    SongsHandler songsHandler;
+    string song_link;
+    string data = "somerandomstring";
+    EXPECT_TRUE(songsHandler.getLink(data, song_link));
 }
+
+// TEST(ServerController, ObtenerCancionOk) {
+//     Mongoose::JsonResponse response;
+//     Mongoose::Request request;
+//     Logger* logger = new Logger(Log_mode::DBG);
+//     ServerController* serverController = new ServerController(logger);
+
+//     serverController->get_song(request, response);
+
+//     delete serverController;
+//     delete logger;
+// }
 
 TEST(Validator, ManejaTokenInvalidoOvacio) {
     string token = "";
