@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream> 
 #include "SongsHandler.h"
-#include "utils/base64.h"
 
 using namespace std;
 
@@ -35,9 +34,6 @@ bool SongsHandler::getLink(string& song_data_file, string& song_link){
     return true;
 };
 
-string SongsHandler::encodeSong(unsigned char const* file){
-    return base64_encode(file, sizeof(file));
-}
 
 
 
