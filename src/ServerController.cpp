@@ -33,7 +33,8 @@ void ServerController::setup(){
 
 void ServerController::test(Mongoose::Request &request, Mongoose::JsonResponse &response){
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
-        dbhandler->showDB();
+        // Descomentar para que muestre la base de datos por consola
+        // dbhandler->showDB();
         response = response_handler.build_response(201, "Monstrando base de datos");
         logger->log("Testing OK", Log_type::INFO);     
     

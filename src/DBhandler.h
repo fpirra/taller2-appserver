@@ -22,7 +22,7 @@ class DBhandler{
         bool deleteByKey(int key);
 
         // Muestra la base de datos
-        void showDB();
+        // void showDB();
 };
 
 #endif

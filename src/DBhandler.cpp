@@ -77,16 +77,16 @@ bool DBhandler::deleteByKey(int key) {
     return true; 
 };
 
-void DBhandler::showDB(){
-    mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
-    mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
-    mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
+// void DBhandler::showDB(){
+//     mongocxx::client client{mongocxx::uri{"mongodb://localhost:27017"}};
+//     mongocxx::database dbUnderfy = client["UnderfyAppSvrDB"]; // Se accede o crea (si existe), la base de datos underfyAppSvrDB
+//     mongocxx::collection tSongs = dbUnderfy["Songs"]; // Las colecciones, son como las tablas. Creamos la "tabla" canciones
  
-    auto cursor = tSongs.find({});
+//     auto cursor = tSongs.find({});
 
-    for (auto&& doc : cursor) {
-        std::cout << bsoncxx::to_json(doc) << std::endl;
-    }
-};
+//     for (auto&& doc : cursor) {
+//         std::cout << bsoncxx::to_json(doc) << std::endl;
+//     }
+// };
 
 
