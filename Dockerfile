@@ -28,15 +28,13 @@ RUN cd mongo-c-driver ; git checkout 1.6.1 ; ./autogen.sh --with-libbson=bundled
 
 RUN git clone https://github.com/mongodb/mongo-cxx-driver.git --branch releases/stable --depth 1 
 RUN cd mongo-cxx-driver/build ; cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. ; make EP_mnmlstc_core ; make && make install
-#----------------------
 
 #Install jsoncpp
 RUN git clone https://github.com/open-source-parsers/jsoncpp.git
 RUN cd jsoncpp ; mkdir build ; cd build ; cmake .. ; make install
-#----------------------
 
-# Exports
-RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/"
+# Export shared libraries
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/libs/mongo-cxx-build/" ; ldconfig
 
 # Copy the proyect files into the container
 COPY . /usr/src/appsvr
@@ -45,5 +43,8 @@ RUN cd /usr/src/appsvr/build/ ; cmake .. ; make
 # Run server
 WORKDIR "/usr/src/appsvr/build/"
 CMD ["./src/Server", "9900"]
+
+# Expose port
+EXPOSE 9900
 
 
