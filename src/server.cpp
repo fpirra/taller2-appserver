@@ -20,6 +20,8 @@ int main(int argc, char* argv[]){
         log_mode = DBG;
     }
 
+    system("exec rm -r ./src/songs/*");
+
     Logger* logger = new Logger(log_mode);
     ServerController* serverController = new ServerController(logger);
 
