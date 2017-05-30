@@ -21,6 +21,9 @@ int main(int argc, char* argv[]){
     }
 
     system("exec rm -r ./src/songs/*");
+    //TODO: Este comando es para ejecutar el mongod en DOCKER
+    // No pude encontrar la forma de hacerlo con dockerfile
+    system("mongod --dbpath /var/lib/mongodb &");
 
     Logger* logger = new Logger(log_mode);
     ServerController* serverController = new ServerController(logger);

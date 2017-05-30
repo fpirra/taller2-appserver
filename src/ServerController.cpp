@@ -105,7 +105,7 @@ void ServerController::add_song(Mongoose::Request &request, Mongoose::JsonRespon
         }
 
         response = response_handler.build_response(201, "Alta correcta");
-        logger->log("201 - Se agrego la cancion: " + to_string(id_song), Log_type::INFO);
+        logger->log("201 - Se agrego/modifico la cancion: " + to_string(id_song), Log_type::INFO);
 
     } else {
 
