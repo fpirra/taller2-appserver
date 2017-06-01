@@ -7,7 +7,7 @@ using namespace std;
 
 class SongsHandler{
     private:
-        string server_domain = "localhost:9900/";
+        string server_domain = "http://ec2-54-200-74-89.us-west-2.compute.amazonaws.com/";
     public:
         SongsHandler();
         ~SongsHandler();
