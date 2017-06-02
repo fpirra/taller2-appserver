@@ -56,6 +56,9 @@ void ServerController::opt(Mongoose::Request &request, Mongoose::JsonResponse &r
 };
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){
+    //Cada vez que se pide una nueva cancion, se eliminan todas las antiguas, +15 mins...
+    system("find ./src/songs/* -mmin +15 -exec rm -f {} \\;");
+
     if ( validator->validate_token( request.getHeaderKeyValue("Authorization") ) ){
         int id_song;
         try{
