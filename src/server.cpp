@@ -20,7 +20,6 @@ int main(int argc, char* argv[]){
         log_mode = DBG;
     }
 
-    system("exec rm -r ./src/songs/*");
     //TODO: Este comando es para ejecutar el mongod en DOCKER
     // No pude encontrar la forma de hacerlo con dockerfile
     system("mongod --dbpath /var/lib/mongodb &");
@@ -32,7 +31,9 @@ int main(int argc, char* argv[]){
     
     Server server(port, carpeta_archivos);
     server.registerController(serverController);
-
+    server.setOption("extra_headers","Access-Control-Allow-Origin: *");
+    server.setOption("extra_headers","Access-Control-Allow-Methods: *");
+    server.setOption("extra_headers","Access-Control-Allow-Headers: *");
     server.start(); 
 
     logger->log("(-> UnderFy <-)", Log_type::INFO);    
@@ -47,7 +48,7 @@ int main(int argc, char* argv[]){
             logger->log("Cerrando servidor, por favor aguarde...", Log_type::WARN);
             online = false;
         }
-        sleep(10);
+        sleep(100);
     }
 
     server.stop();

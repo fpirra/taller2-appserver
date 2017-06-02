@@ -20,6 +20,9 @@ void ServerController::setup(){
    
     addRouteResponse("GET", "/test", ServerController, test, JsonResponse);
 
+    // Se agrega esto por el problema de cross domain
+    addRouteResponse("OPTIONS", "/song", ServerController, opt, JsonResponse);
+
     // Recibo por HEADER: Authorization , y por PARAMETRO: id_song
     addRouteResponse("GET", "/song", ServerController, get_song, JsonResponse);
     
@@ -43,6 +46,13 @@ void ServerController::test(Mongoose::Request &request, Mongoose::JsonResponse &
         logger->log("401 - El token recibido no es valido", Log_type::WARN);
     }
    
+};
+
+
+void ServerController::opt(Mongoose::Request &request, Mongoose::JsonResponse &response){
+        response = response_handler.build_response(201, "Monstrando base de datos");
+        logger->log("Testing OK", Log_type::INFO);     
+
 };
 
 void ServerController::get_song(Mongoose::Request &request, Mongoose::JsonResponse &response){

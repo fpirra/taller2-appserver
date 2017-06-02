@@ -28,6 +28,7 @@ class ServerController : public Mongoose::JsonController {
 
         // Testeando json response
         void test(Mongoose::Request &request, Mongoose::JsonResponse &response);
+        void opt(Mongoose::Request &request, Mongoose::JsonResponse &response);
         void get_song(Mongoose::Request &request, Mongoose::JsonResponse &response);
         void add_song(Mongoose::Request &request, Mongoose::JsonResponse &response);
         void del_song(Mongoose::Request &request, Mongoose::JsonResponse &response);
