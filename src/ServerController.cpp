@@ -50,8 +50,8 @@ void ServerController::test(Mongoose::Request &request, Mongoose::JsonResponse &
 
 
 void ServerController::opt(Mongoose::Request &request, Mongoose::JsonResponse &response){
-        response = response_handler.build_response(201, "Monstrando base de datos");
-        logger->log("Testing OK", Log_type::INFO);     
+        response = response_handler.build_response(201, "Options");
+        logger->log("Sending options", Log_type::INFO);     
 
 };
 

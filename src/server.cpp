@@ -31,9 +31,6 @@ int main(int argc, char* argv[]){
     
     Server server(port, carpeta_archivos);
     server.registerController(serverController);
-    server.setOption("extra_headers","Access-Control-Allow-Origin: *");
-    server.setOption("extra_headers","Access-Control-Allow-Methods: *");
-    server.setOption("extra_headers","Access-Control-Allow-Headers: *");
     server.start(); 
 
     logger->log("(-> UnderFy <-)", Log_type::INFO);    
