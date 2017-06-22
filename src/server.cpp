@@ -31,6 +31,12 @@ int main(int argc, char* argv[]){
     
     Server server(port, carpeta_archivos);
     server.registerController(serverController);
+    server.setOption("extra_headers","Access-Control-Allow-Origin: *");
+    server.setOption("extra_headers","Access-Control-Allow-Methods: OPTIONS, GET, PUT, POST, DELETE");
+    server.setOption("extra_headers","Access-Control-Allow-Headers: Authorization");
+    server.setOption("extra_headers","Access-Control-Allow-Credentials: true");
+    server.setOption("extra_headers","Allow: OPTIONS, GET, PUT, POST, DELETE"); 
+    server.setOption("extra_mime_types", "multipart/form-data");
     server.start(); 
 
     logger->log("(-> UnderFy <-)", Log_type::INFO);    

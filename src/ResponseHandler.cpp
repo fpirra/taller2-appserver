@@ -15,6 +15,7 @@ Mongoose::JsonResponse ResponseHandler::build_response(int code, string message)
     response.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
     response.setHeader("Access-Control-Allow-Headers", "Authorization");
     response.setHeader("Allow", "OPTIONS, GET, PUT, POST, DELETE"); 
+    response.setHeader("extra_mime_types", "multipart/form-data");
     response["code"] = code;
     response["message"] = message;    
     return response;
